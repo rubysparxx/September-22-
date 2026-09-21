@@ -190,11 +190,6 @@ setInterval(()=>{
 const music=document.getElementById('music');
 const btn=document.getElementById('musicBtn');
 
-music.addEventListener('canplay',()=>{
-  btn.title='Play music';
-  btn.setAttribute('aria-label','Play music');
-});
-
 music.addEventListener('play',()=>{
   btn.textContent='❚❚';
   btn.title='Pause music';
@@ -207,22 +202,50 @@ music.addEventListener('pause',()=>{
   btn.setAttribute('aria-label','Play music');
 });
 
+music.addEventListener('ended',()=>{
+  btn.textContent='♪';
+  btn.title='Play music';
+  btn.setAttribute('aria-label','Play music');
+});
+
 music.addEventListener('error',()=>{
+  btn.textContent='♪';
   btn.title='Music could not be loaded';
   btn.setAttribute('aria-label','Music could not be loaded');
 });
 
 btn.addEventListener('click', async ()=>{
   try{
-    if(music.paused){
-      if(music.readyState === 0) music.load();
-      await music.play();
-    }else{
+    if(!music.paused){
       music.pause();
+      return;
     }
+
+    // Reload the source on every first play so GitHub Pages/browser caching
+    // cannot leave the audio element in an unloaded state.
+    if(!music.src || music.readyState === 0){
+      music.src = './music.mp3';
+      music.load();
+    }
+
+    // Wait until the browser has enough data to start playback.
+    if(music.readyState < 2){
+      await new Promise((resolve,reject)=>{
+        const ready=()=>{cleanup();resolve();};
+        const fail=()=>{cleanup();reject(new Error('Audio failed to load'));};
+        const cleanup=()=>{
+          music.removeEventListener('canplay',ready);
+          music.removeEventListener('error',fail);
+        };
+        music.addEventListener('canplay',ready,{once:true});
+        music.addEventListener('error',fail,{once:true});
+      });
+    }
+
+    await music.play();
   }catch(e){
     console.error('Music playback error:', e);
-    alert('The music file could not be played. Make sure music.mp3 is uploaded beside index.html.');
+    alert('Music could not start. Please make sure music.mp3 is in the same GitHub folder as index.html.');
   }
 });
 </script>
