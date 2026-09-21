@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>September 22 — One Year of Us</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:#090808;color:#f8f2ed;
+  font-family:Inter,system-ui,sans-serif;overflow-x:hidden;
+}
+.bg{position:fixed;inset:0;z-index:-5;overflow:hidden;background:#090808}
+.bg img{
+  position:absolute;inset:-5%;width:110%;height:110%;object-fit:cover;
+  opacity:0;filter:blur(1px) brightness(.34) saturate(.82);
+  transform:scale(1.04);transition:opacity 1.8s ease,transform 8s ease;
+}
+.bg img.active{opacity:1;transform:scale(1.10)}
+.vignette{position:fixed;inset:0;z-index:-4;background:
+  radial-gradient(circle at center,transparent 5%,rgba(0,0,0,.30) 55%,rgba(0,0,0,.78) 100%),
+  linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.65));pointer-events:none}
+.grain{position:fixed;inset:0;z-index:20;opacity:.045;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+main{position:relative;z-index:2}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:35px 22px}
+.hero-inner{max-width:900px}
+.kicker{font-size:11px;letter-spacing:.34em;text-transform:uppercase;opacity:.72;margin-bottom:25px}
+h1{font:500 clamp(54px,10vw,110px)/.88 "Cormorant Garamond",serif;margin:0}
+h1 span{font-style:italic}
+.subtitle{font:400 clamp(20px,3vw,30px) "Cormorant Garamond",serif;opacity:.86;margin-top:26px}
+.date{margin-top:34px;font-size:12px;letter-spacing:.26em;text-transform:uppercase;opacity:.62}
+.enter{
+  display:inline-block;margin-top:48px;padding:13px 22px;border:1px solid rgba(255,255,255,.3);
+  color:white;text-decoration:none;border-radius:999px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  backdrop-filter:blur(8px);transition:.3s;
+}
+.enter:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6);transform:translateY(-2px)}
+.section{min-height:100vh;padding:110px 22px;display:flex;align-items:center;justify-content:center}
+.letter-wrap{max-width:790px;width:100%;padding:48px clamp(22px,6vw,70px);background:rgba(9,8,8,.52);
+  border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(14px);box-shadow:0 25px 90px rgba(0,0,0,.38)}
+.letter-top{text-align:center;margin-bottom:45px}
+.letter-top .small{font-size:10px;letter-spacing:.28em;text-transform:uppercase;opacity:.55}
+.letter-top h2{font:500 clamp(38px,6vw,62px)/1 "Cormorant Garamond",serif;margin:13px 0 0}
+.letter{font:400 19px/1.9 "Cormorant Garamond",serif;color:#f5eee9}
+.letter p{margin:0 0 24px}
+.letter .salute{font-size:25px}
+.letter .sign{font-size:27px;font-style:italic;margin-top:35px}
+.gallery{min-height:auto;padding-top:80px;padding-bottom:120px;display:block}
+.gallery-title{text-align:center;margin-bottom:42px}
+.gallery-title h2{font:500 52px "Cormorant Garamond",serif;margin:0}
+.gallery-title p{opacity:.58;font-size:12px;letter-spacing:.15em;text-transform:uppercase}
+.grid{max-width:1050px;margin:auto;display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.card{overflow:hidden;position:relative;background:#151313;border:1px solid rgba(255,255,255,.08)}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s ease,filter .6s}
+.card:hover img{transform:scale(1.045);filter:brightness(1.08)}
+.card:nth-child(1){grid-column:span 7;height:500px}
+.card:nth-child(2){grid-column:span 5;height:500px}
+.card:nth-child(3){grid-column:span 5;height:650px}
+.card:nth-child(4){grid-column:span 7;height:650px}
+.caption{position:absolute;left:18px;bottom:16px;font:italic 22px "Cormorant Garamond",serif;text-shadow:0 2px 12px #000}
+.footer{text-align:center;padding:80px 20px 110px}
+.footer .heart{font-size:24px;margin-bottom:18px}
+.footer h3{font:500 45px "Cormorant Garamond",serif;margin:0}
+.footer p{opacity:.52;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:16px}
+.floating{position:fixed;right:22px;bottom:22px;z-index:10;border:1px solid rgba(255,255,255,.18);
+  background:rgba(10,9,9,.5);backdrop-filter:blur(10px);border-radius:50%;width:43px;height:43px;
+  color:white;cursor:pointer;font-size:17px}
+@media(max-width:700px){
+  .section{padding:70px 14px}
+  .letter-wrap{padding:34px 22px}
+  .letter{font-size:18px;line-height:1.8}
+  .grid{display:block}
+  .card,.card:nth-child(n){height:420px;margin-bottom:12px}
+  .card:nth-child(3),.card:nth-child(4){height:520px}
+}
+</style>
+</head>
+<body>
+<div class="bg">
+  <img src="photo-1.jpg" class="active" alt="">
+  <img src="photo-2.jpg" alt="">
+  <img src="photo-3.jpg" alt="">
+  <img src="photo-4.jpg" alt="">
+</div>
+<div class="vignette"></div><div class="grain"></div>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="kicker">September 22, 2025 — September 22, 2026</div>
+    <h1>one year of <span>us.</span></h1>
+    <div class="subtitle">one conversation. a thousand memories. and somehow, you.</div>
+    <div class="date">happy one year since we started talking</div>
+    <a class="enter" href="#letter">open our story ↓</a>
+  </div>
+</section>
+
+<section class="section" id="letter">
+  <article class="letter-wrap">
+    <div class="letter-top">
+      <div class="small">a letter for you</div>
+      <h2>to shoshi,</h2>
+    </div>
+    <div class="letter">
+      <p class="salute">shoshi,</p>
+      <p>in about ten minutes, it'll be september 22nd.</p>
+      <p>and honestly… i don't even know how to put into words what that date means to me.</p>
+      <p>because exactly one year ago, on september 22nd, 2025, you and i started talking.</p>
+      <p>at the time, i obviously had no idea what was about to happen. i didn't know that the girl i was talking to that day would slowly become someone so deeply woven into my life. i didn't know that a simple conversation would turn into countless conversations, stupid jokes, late-night talks, little arguments, moments of silence, moments where we couldn't stop talking, and eventually… <em>us.</em></p>
+      <p>one year.</p>
+      <p>it sounds so simple when you say it like that.</p>
+      <p>but when i actually think about everything that happened between that first conversation and where we are now, it feels like so much more than a year.</p>
+      <p>somehow, in just twelve months, you became someone whose presence can completely change my day. someone i look for when something happens. someone i want to tell things to, even the most random, meaningless things. someone whose messages can make me smile like an idiot without even trying.</p>
+      <p>and you've seen so many different versions of me during this year.</p>
+      <p>the annoying one. the clingy one. the overthinking one. the emotional one. the stupid one. the affectionate one. the one who sometimes doesn't know how to properly explain what he's feeling.</p>
+      <p>and somehow, you're still here.</p>
+      <p>i don't think i'll ever be able to properly explain how much that means to me.</p>
+      <p>there were definitely moments that weren't perfect. moments where we misunderstood each other, got upset, needed space, or didn't know what to say. but strangely, those moments matter to me too.</p>
+      <p>because love isn't only the pretty moments.</p>
+      <p>it's also choosing to understand each other after the difficult ones. it's learning each other's little habits. it's figuring out when to hold on and when to give space. it's growing without expecting the other person to stay exactly the same.</p>
+      <p>and if there's one thing this year has taught me, it's that i don't just love the easy parts of you.</p>
+      <p>i love <em>you.</em></p>
+      <p>the way you are. the way you think. the way you talk. the little things you probably don't even realize i notice. the version of you that laughs. the version of you that's quiet. the version of you that's annoyed at me. the version of you that needs space. the version of you that lets me get close.</p>
+      <p>all of it.</p>
+      <p>and sometimes i sit and wonder what would've happened if we hadn't started talking that day.</p>
+      <p>what if that conversation never happened?</p>
+      <p>what if one of us had been too shy? what if we had never sent that first message? what if september 22nd had just been another ordinary day?</p>
+      <p>i don't like thinking about that version of my life.</p>
+      <p>because i'm really glad this version exists.</p>
+      <p>the version where i know you. the version where i get to call you mine. the version where i get to make memories with you. the version where, somewhere along the way, you stopped being just a person i talked to and became <em>my person.</em></p>
+      <p>and shoshi… thank you.</p>
+      <p>thank you for every conversation. every laugh. every stupid moment. every late-night talk. every time you listened. every time you stayed. every memory we've made without even realizing it would become a memory i'd someday treasure.</p>
+      <p>thank you for becoming such an important part of my life.</p>
+      <p>i don't know what the next year will look like. i don't know how many things will change. i don't know how many new memories we'll make. i don't know what life is going to throw at us.</p>
+      <p>but i know that if someone had told the version of me from september 22nd, 2025 that one year later he'd still be here, writing a ridiculously emotional letter to the girl he'd started talking to that day… he probably would've laughed.</p>
+      <p>and yet here i am.</p>
+      <p>one year later.</p>
+      <p>still choosing you. still wanting you. still getting stupidly happy because of you. still caring way more than i know how to explain.</p>
+      <p>and somehow, after everything… i still look at you and think,</p>
+      <p><em>“yeah. i'd choose her again.”</em></p>
+      <p>happy one year since we started talking, shoshi.</p>
+      <p>happy september 22nd.</p>
+      <p>happy one year of <em>us becoming us.</em></p>
+      <p>and if i could go back to that exact moment one year ago, knowing everything i know now… i'd still start that conversation.</p>
+      <p>every single time.</p>
+      <p class="sign">i love you. ❤️</p>
+    </div>
+  </article>
+</section>
+
+<section class="gallery">
+  <div class="gallery-title">
+    <h2>little pieces of us</h2>
+    <p>the moments i never want to forget</p>
+  </div>
+  <div class="grid">
+    <div class="card"><img src="photo-1.jpg" alt="us"><div class="caption">where it all feels real.</div></div>
+    <div class="card"><img src="photo-2.jpg" alt="us"><div class="caption">just you & me.</div></div>
+    <div class="card"><img src="photo-3.jpg" alt="us"><div class="caption">my favorite kind of chaos.</div></div>
+    <div class="card"><img src="photo-4.jpg" alt="us"><div class="caption">a moment worth keeping.</div></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="heart">♡</div>
+  <h3>one year down.</h3>
+  <p>and i'm still glad it was you.</p>
+</footer>
+</main>
+
+<button class="floating" id="musicBtn" title="Toggle ambient sound" aria-label="Play music">♪</button>
+<audio id="music" loop preload="auto">
+  <source src="./music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const slides=[...document.querySelectorAll('.bg img')];
+let i=0;
+setInterval(()=>{
+  slides[i].classList.remove('active');
+  i=(i+1)%slides.length;
+  slides[i].classList.add('active');
+},6000);
+
+const music=document.getElementById('music');
+const btn=document.getElementById('musicBtn');
+
+music.addEventListener('canplay',()=>{
+  btn.title='Play music';
+  btn.setAttribute('aria-label','Play music');
+});
+
+music.addEventListener('play',()=>{
+  btn.textContent='❚❚';
+  btn.title='Pause music';
+  btn.setAttribute('aria-label','Pause music');
+});
+
+music.addEventListener('pause',()=>{
+  btn.textContent='♪';
+  btn.title='Play music';
+  btn.setAttribute('aria-label','Play music');
+});
+
+music.addEventListener('error',()=>{
+  btn.title='Music could not be loaded';
+  btn.setAttribute('aria-label','Music could not be loaded');
+});
+
+btn.addEventListener('click', async ()=>{
+  try{
+    if(music.paused){
+      if(music.readyState === 0) music.load();
+      await music.play();
+    }else{
+      music.pause();
+    }
+  }catch(e){
+    console.error('Music playback error:', e);
+    alert('The music file could not be played. Make sure music.mp3 is uploaded beside index.html.');
+  }
+});
+</script>
+</body>
+</html>
